@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Why this website?</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">About this project</p>
+        <h1>Why we made this demo.</h1>
+        <p class="hero-subtitle">
+          This site demonstrates a simple intake UI and a demo risk scoring approach
+          aligned to a small Random Forest model trained on a local dataset.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="index.html">Back to assessment</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="form-panel">
+        <div class="panel-header">
+          <h2>Project purpose</h2>
+        </div>
+        <div class="panel-body">
+          <p>
+            This repository is a demonstration for educational purposes. It shows how
+            one might collect intake features, train a Random Forest model locally
+            (see <strong>Heart Stroke Prediction.py</strong>), and expose a simple
+            frontend for scoring. The current web UI uses a demo scoring heuristic
+            and is not connected to the saved model file by default.
+          </p>
+          <h3>Important disclaimer</h3>
+          <p>
+            The estimator provided here is NOT a medical device. It has not been
+            clinically validated and should not be used to delay or replace
+            professional medical advice. If users are at risk or symptomatic,
+            seek immediate care.
+          </p>
+          <h3>Next steps to productionize</h3>
+          <ul>
+            <li>Compute and report validation metrics (accuracy, ROC AUC) on holdout data.</li>
+            <li>Expose a secure backend endpoint that loads the trained model for predictions.</li>
+            <li>Perform external validation and clinical review before any deployment.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Built for the Heart Stroke Prediction ML project by Gyan.</p>
+    </footer>
+  </body>
+</html>
