@@ -79,7 +79,38 @@ body {
   text-decoration: none;
   font-size: 1.05rem;
 }
-.top-nav .nav-actions { display: flex; gap: 10px; }
+.top-nav .nav-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+/* Responsive navbar tweaks for small screens */
+@media (max-width: 600px) {
+  .top-nav {
+    left: 4vw;
+    right: 4vw;
+    top: 12px;
+  }
+
+  .top-nav .nav-inner {
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .top-nav .brand { font-size: 1rem; }
+
+  .top-nav .nav-actions { gap: 8px; }
+
+  .top-nav .nav-actions .btn { padding: 8px 10px; font-size: 0.85rem; }
+
+  .hero { padding-top: 90px; }
+}
+
+@media (max-width: 420px) {
+  .top-nav .nav-inner { flex-direction: column; align-items: stretch; }
+  .top-nav .brand { margin-bottom: 6px; }
+  .top-nav .nav-actions { display: flex; flex-direction: column; gap: 6px; }
+  .top-nav .nav-actions .btn { width: 100%; text-align: center; }
+  .hero { padding-top: 110px; }
+}
 
 /* Panels introduced for content sections */
 .panel { margin-bottom: 18px; }
