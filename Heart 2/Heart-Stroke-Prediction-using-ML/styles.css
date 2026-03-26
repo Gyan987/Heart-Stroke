@@ -84,15 +84,19 @@ body {
 /* Responsive navbar tweaks for small screens */
 @media (max-width: 600px) {
   .top-nav {
+    position: relative;
     left: 4vw;
     right: 4vw;
-    top: 12px;
+    top: auto;
+    padding: 8px 0;
+    z-index: 5;
   }
 
   .top-nav .nav-inner {
     flex-direction: row;
     gap: 8px;
     align-items: center;
+    flex-wrap: wrap;
   }
 
   .top-nav .brand { font-size: 1rem; }
@@ -101,15 +105,20 @@ body {
 
   .top-nav .nav-actions .btn { padding: 8px 10px; font-size: 0.85rem; }
 
-  .hero { padding-top: 90px; }
+  .hero { padding-top: 24px; }
 }
 
 @media (max-width: 420px) {
+  .top-nav {
+    position: relative;
+    padding: 8px 0;
+  }
+
   .top-nav .nav-inner { flex-direction: column; align-items: stretch; }
   .top-nav .brand { margin-bottom: 6px; }
   .top-nav .nav-actions { display: flex; flex-direction: column; gap: 6px; }
-  .top-nav .nav-actions .btn { width: 100%; text-align: center; }
-  .hero { padding-top: 110px; }
+  .top-nav .nav-actions .btn { width: 100%; text-align: center; padding: 10px; }
+  .hero { padding-top: 24px; }
 }
 
 /* Panels introduced for content sections */
