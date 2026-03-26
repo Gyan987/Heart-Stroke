@@ -394,3 +394,36 @@ if (downloadPdfBtn) {
     }
   });
 }
+
+// Navigation toggle (hamburger) for small screens
+document.addEventListener('DOMContentLoaded', () => {
+  const navToggle = document.querySelector('.nav-toggle');
+  const topNav = document.querySelector('.top-nav');
+  const navActions = document.querySelector('.top-nav .nav-actions');
+
+  if (!navToggle || !topNav || !navActions) return;
+
+  navToggle.addEventListener('click', () => {
+    const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+    navToggle.setAttribute('aria-expanded', String(!expanded));
+    topNav.classList.toggle('open');
+  });
+
+  // Close menu when a scroll button is clicked (so it hides after navigation)
+  const scrollBtns = navActions.querySelectorAll('[data-scroll]');
+  scrollBtns.forEach((b) => b.addEventListener('click', () => {
+    topNav.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  // If viewport is resized above breakpoint, ensure nav is visible normally
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 600) {
+      topNav.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navActions.style.display = '';
+    } else {
+      navActions.style.display = '';
+    }
+  });
+});
