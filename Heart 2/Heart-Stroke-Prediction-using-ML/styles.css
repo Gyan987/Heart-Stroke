@@ -139,6 +139,41 @@ body {
   .hero { padding-top: 24px; }
 }
 
+/* Tips page styles */
+.tips-hero .hero-content h1 {
+  font-size: clamp(2.6rem, 6vw, 3.6rem);
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.tip-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+.tip-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+
+.tip-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.4;
+}
+
+.panel-body ol { list-style: none; padding: 0; }
+
 /* Panels introduced for content sections */
 .panel { margin-bottom: 18px; }
 .how-panel ol { margin: 0; padding-left: 18px; color: var(--muted); }
