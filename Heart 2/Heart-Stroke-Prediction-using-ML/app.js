@@ -348,35 +348,98 @@ function generatePDF(payload) {
       showToast('risk', 'PDF library not loaded');
       return;
     }
+    const doc = new jsPDF({ unit: 'pt', format: 'letter' });
 
-    const doc = new jsPDF();
-    doc.setFontSize(16);
-    doc.text('Heart Stroke Prediction — Report', 14, 18);
-    if (payload.patient_name) {
-      doc.setFontSize(12);
-      doc.text(`Patient: ${payload.patient_name}`, 14, 26);
-    }
+    // Page margins
+    const margin = 40;
+    const pageWidth = doc.internal.pageSize.getWidth();
 
-    const rows = Object.keys(values).map((k) => [fieldLabels[k] || k, String(values[k])]);
+    // Header bar
+    doc.setFillColor(34, 102, 160);
+    doc.rect(0, 0, pageWidth, 72, 'F');
+    doc.setFontSize(18);
+    doc.setTextColor(255, 255, 255);
+    doc.setFont(undefined, 'bold');
+    doc.text('Heart Stroke Prediction — Official Report', margin, 44);
 
-    // add score and level as top rows
-    rows.unshift(['Risk level', String(level).toUpperCase()]);
-    rows.unshift(['Score', `${score} / 12`]);
+    // Reset text color for body
+    doc.setTextColor(34, 34, 34);
+    doc.setFont(undefined, 'normal');
+
+    // Report metadata block (right aligned)
+    const timestamp = new Date();
+    const ts = timestamp.toISOString().replace('T', ' ').slice(0, 19);
+    doc.setFontSize(10);
+    doc.text(`Generated: ${ts}`, pageWidth - margin, 30, { align: 'right' });
+    doc.text(`Report ID: ${'HS-' + timestamp.getTime()}`, pageWidth - margin, 44, { align: 'right' });
+
+    // Patient / summary box
+    const startY = 92;
+    doc.setDrawColor(200);
+    doc.setFillColor(245, 247, 250);
+    doc.roundedRect(margin, startY, pageWidth - margin * 2, 72, 6, 6, 'F');
+
+    doc.setFontSize(12);
+    doc.setFont(undefined, 'bold');
+    doc.text('Patient:', margin + 8, startY + 22);
+    doc.setFont(undefined, 'normal');
+    doc.text(payload.patient_name || '—', margin + 70, startY + 22);
+
+    // Risk summary badge on right
+    const badgeX = pageWidth - margin - 140;
+    const badgeY = startY + 12;
+    const levelLabel = String(level || '').toUpperCase();
+    const scoreLabel = `${score}%`;
+    // color by level
+    const colors = { high: [220, 53, 69], medium: [255, 193, 7], low: [40, 167, 69] };
+    const c = colors[level] || [108, 117, 125];
+    doc.setFillColor(...c);
+    doc.roundedRect(badgeX, badgeY, 120, 40, 6, 6, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(11);
+    doc.setFont(undefined, 'bold');
+    doc.text(levelLabel, badgeX + 60, badgeY + 16, { align: 'center' });
+    doc.setFontSize(14);
+    doc.text(scoreLabel, badgeX + 60, badgeY + 33, { align: 'center' });
+
+    // back to dark text for body
+    doc.setTextColor(34, 34, 34);
+
+    // Prepare rows for autoTable (exclude empty or internal keys)
+    const rows = Object.keys(values)
+      .filter((k) => k in fieldLabels)
+      .map((k) => [fieldLabels[k] || k, String(values[k])]);
+
+    // Add a short interpretation paragraph
+    const interpY = startY + 92;
+    doc.setFontSize(11);
+    doc.setFont(undefined, 'normal');
+    const interp = `Summary: This report presents a demo risk estimate. The score is for informational purposes and is not a clinical diagnosis. For clinical decisions, consult a qualified professional.`;
+    doc.text(doc.splitTextToSize(interp, pageWidth - margin * 2), margin, interpY);
+
+    // Table start position
+    const tableStartY = interpY + 36;
 
     doc.autoTable({
-      startY: 28,
-      head: [['Field', 'Value']],
+      startY: tableStartY,
+      head: [['Feature', 'Value']],
       body: rows,
-      styles: { cellPadding: 2, fontSize: 10 },
+      styles: { cellPadding: 6, fontSize: 10 },
+      headStyles: { fillColor: [34,102,160], textColor: 255, halign: 'center', fontStyle: 'bold' },
+      columnStyles: { 0: { cellWidth: 180, fontStyle: 'bold' }, 1: { cellWidth: 'auto' } },
+      tableWidth: pageWidth - margin * 2,
     });
 
-    const timestamp = new Date().toISOString();
-    const afterTableY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 8 : doc.internal.pageSize.getHeight() - 30;
-    doc.setFontSize(9);
-    doc.text(`Generated: ${timestamp}`, 14, afterTableY);
-    doc.text('Disclaimer: This is a demo report. Not clinically validated.', 14, afterTableY + 6);
+    // Footer with contact and disclaimer
+    const afterTableY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 18 : tableStartY + 120;
+    doc.setFontSize(10);
+    doc.text('Contact: gyanprakasht987@gmail.com', margin, afterTableY);
+    doc.text('Owner: Gyan Prakash Tiwari', margin, afterTableY + 14);
+    doc.setFontSize(8);
+    doc.setTextColor(100);
+    doc.text('Disclaimer: This is a demo report for informational purposes only and is not a substitute for professional medical advice. The model and results are provided "as is". Reuse or redistribution of this report or the underlying model without permission is prohibited.', margin, afterTableY + 34, { maxWidth: pageWidth - margin * 2 });
 
-    const filename = `heart-stroke-report-${timestamp.replace(/[:.]/g, '-')}.pdf`;
+    const filename = `heart-stroke-report-${timestamp.toISOString().replace(/[:.]/g, '-')}.pdf`;
     doc.save(filename);
     showToast('safe', 'PDF downloaded');
   } catch (err) {
