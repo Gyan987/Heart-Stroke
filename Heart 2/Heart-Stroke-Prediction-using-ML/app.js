@@ -7,7 +7,9 @@ const prefillBtn = document.getElementById("prefillBtn");
 const resultCard = document.getElementById("resultCard");
 const toast = document.getElementById("toast");
 const downloadPdfBtn = document.getElementById("downloadPdfBtn");
-const BACKEND_URL = "http://localhost:8000/predict";
+// Determine backend URL from a meta tag so it can be overridden at deploy time (Netlify Functions or external API)
+const metaBackend = document.querySelector('meta[name="backend-url"]');
+const BACKEND_URL = (metaBackend && metaBackend.content) ? metaBackend.content : "http://localhost:8000/predict";
 
 const weights = {
   age: [55, 65],

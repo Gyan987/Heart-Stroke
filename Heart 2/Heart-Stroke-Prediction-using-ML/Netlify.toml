@@ -1,0 +1,9 @@
+[build]
+  # Publish the actual frontend folder when the repo root contains multiple projects.
+  publish = "Heart 2/Heart-Stroke-Prediction-using-ML"
+  # No build command needed for this static site. If you add a build step,
+  # set `command` to your build command (e.g. "npm run build").
+
+[dev]
+  # Netlify dev will serve functions from `netlify/functions` if you add them.
+  command = ""
