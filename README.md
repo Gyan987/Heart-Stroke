@@ -97,33 +97,4 @@ The system generates:
 ---
 
 # ⚙️ Installation
-
-### 1️⃣ Clone the repository
-
-```bash
-git clone https://github.com/yourusername/ai-heart-stroke-predictor.git
-cd ai-heart-stroke-predictor
-pip install -r requirements.txt
-python app.py
-
-1. Fork the repository
-2. Create a new branch
-3. Make your changes
-4. Commit your code
-5. Push to your branch
-6. Submit a Pull Request
-
----
-
-✅ This will look **very clean and professional on GitHub**.
-
-If you want, I can also generate a **🔥 “Top 1% GitHub Style README”** with:
-
-- Project **architecture diagram**
-- **Screenshots section**
-- **Demo GIF**
-- **Model accuracy graph**
-- **API documentation**
-- **Cool GitHub stats badges**
-
-Just say **“make advanced README”** and I’ll generate it.
+............
